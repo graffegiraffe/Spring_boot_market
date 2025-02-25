@@ -1,5 +1,6 @@
 package com.tms;
 
+import com.tms.annotation.LogAnnotation;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.Data;
@@ -14,11 +15,11 @@ import org.springframework.context.annotation.Scope;
 public class User {
     private Long id;
     private String firstname;
-    @Autowired
+
     private Security securityInfo;
 
-    
-    public User(@Qualifier(value = "security")Security securityInfo) {
+    @Autowired
+    public User(@Qualifier(value = "security") Security securityInfo) {
         this.securityInfo = securityInfo;
     }
 
@@ -46,14 +47,27 @@ public class User {
         this.securityInfo = securityInfo;
     }
 
-    @PostConstruct 
+    @PostConstruct
     public void init() {
         System.out.println("Creating user bean ...");
     }
 
-    @PreDestroy 
+    @PreDestroy
     public void destroy() {
         System.out.println("Destroing user bean ...");
+    }
+
+    @LogAnnotation
+    public void showInfoAboutMe() {
+        System.out.println("User info about me IN");
+        printInfoAboutMe();
+        System.out.println("User info about me OUT");
+    }
+
+    @LogAnnotation
+    public void printInfoAboutMe() {
+        System.out.println("User info print about me IN");
+        System.out.println("User info print about me OUT");
     }
 
     @Override
