@@ -8,7 +8,6 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -16,21 +15,6 @@ import java.util.Date;
 @Aspect
 @Component
 public class LogAspect {
-
-    //JoinPoint - метод в которой применяем аспект
-    //Pointcut - методЫ в которЫХ применяем аспект
-
-    //Виды Pointcut
-    //1. @Pointcut("within(com.tms.User)")
-    //2. @Pointcut("execution(public * *())") - более точная настройка среза
-    //3. @Pointcut("@annotation(com.tms.annotation.LogAnnotation)") - используя аннотации
-    
-
-    //2. Виды Advice - в каком именно месте метода выполнить код
-    //2.1 @Before("@annotation(com.tms.annotation.LogAnnotation)")
-    //2.2 @After("@annotation(com.tms.annotation.LogAnnotation)")
-    //2.3 @AfterThrowing(value = "@annotation(com.tms.annotation.LogAnnotation)", throwing = "err")
-    //2.4 
 
     @Before("@annotation(com.tms.annotation.LogAnnotation)")
     public void logBefore(JoinPoint joinPoint) {
