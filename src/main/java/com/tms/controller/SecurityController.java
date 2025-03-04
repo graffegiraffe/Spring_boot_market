@@ -1,6 +1,6 @@
 package com.tms.controller;
 
-import com.tms.serice.SecurityService;
+import com.tms.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +19,10 @@ public class SecurityController {
         this.securityService = securityService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/registration")
     public String registration() {
         return "registration";
     }
-    
-    //Create Read Update Delete
 
     @PostMapping("/registration")
     public String registration(
@@ -41,14 +39,4 @@ public class SecurityController {
 
         return "user";
     }
-
-    //как передавать параметры:
-    // 1.   @PathVariable("id") Integer id - как часть пути
-    // 2.   @RequestParam("id") Integer id - после основного пути как параметр или из Body
-
-    //@RequestMapping("/security") - префикс к путям в контроллере
-
-    //TODO: Interceptor
-
-    //TODO: кодировка в консоли
 }

@@ -1,12 +1,13 @@
-package com.tms.serice;
+package com.tms.service;
 
 import com.tms.repository.SecurityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 
-@Service
+@Component
 public class SecurityService {
     
     public final SecurityRepository securityRepository;
