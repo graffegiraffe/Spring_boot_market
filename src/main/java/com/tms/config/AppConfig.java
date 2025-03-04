@@ -1,17 +1,19 @@
 package com.tms.config;
 
+import com.tms.exception.CustomAppExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-@EnableWebMvc //Включаем Interceptor
+@EnableWebMvc //Включаем Interceptor и Validation
 @ComponentScan("com.tms")
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
@@ -35,4 +37,9 @@ public class AppConfig implements WebMvcConfigurer {
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
+    
+/*    @Bean
+    public HandlerExceptionResolver handlerExceptionResolver() {
+        return new CustomAppExceptionHandler();
+    }*/
 }

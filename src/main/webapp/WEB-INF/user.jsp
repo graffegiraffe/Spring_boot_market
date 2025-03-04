@@ -5,5 +5,6 @@
 </head>
 <body>
 This is User page!
+Is created: ${result}
 </body>
 </html>
