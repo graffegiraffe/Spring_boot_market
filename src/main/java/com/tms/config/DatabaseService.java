@@ -1,6 +1,9 @@
 package com.tms.config;
 
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -9,11 +12,15 @@ import java.sql.SQLException;
 
 @NoArgsConstructor
 @Component
+@PropertySource("classpath:application.properties")
 public class DatabaseService {
-    final String URL = "jdbc:postgresql://localhost:5432/database-32";
-    final String DB_LOGIN = "user32";
-    final String DB_PASSWORD = "qwerty";
-    
+    public Environment environment;
+
+    @Autowired
+    public DatabaseService(Environment environment) {
+        this.environment = environment;
+    }
+
     {
         try {
             Class.forName("org.postgresql.Driver");
@@ -24,7 +31,10 @@ public class DatabaseService {
 
     public Connection getConnection() {
         try {
-            return DriverManager.getConnection(URL, DB_LOGIN, DB_PASSWORD);
+            return DriverManager.getConnection(
+                    environment.getProperty("spring.datasource.url"),
+                    environment.getProperty("spring.datasource.username"),
+                    environment.getProperty("spring.datasource.password"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
