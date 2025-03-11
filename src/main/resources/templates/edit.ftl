@@ -1,10 +1,12 @@
-
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<#import "macros/userInfoMacro.ftl" as um>
 <html>
 <head>
     <title>Update user</title>
 </head>
 <body>
+<h1>Current user info:</h1>
+<@um.userInfo user/>
+
 <h1>Update user:</h1>
 <form action="/user" method="post">
     <div>
