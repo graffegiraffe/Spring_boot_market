@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @Repository
 public class SecurityRepository {
 
-    public DatabaseService databaseService;
+    private DatabaseService databaseService;
 
     @Autowired
     public SecurityRepository(DatabaseService databaseService) {

@@ -11,7 +11,7 @@ public class AppExceptionHandler {
     @ExceptionHandler(value = AgeException.class)
     public ModelAndView ageExceptionHandler(AgeException exception) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("error");
+        modelAndView.setViewName("innerError");
         modelAndView.addObject("message", exception.getMessage());
         modelAndView.setStatus(HttpStatus.BAD_REQUEST);
         return modelAndView;
