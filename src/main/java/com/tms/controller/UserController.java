@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -27,20 +28,22 @@ public class UserController {
     }
 
     @GetMapping("/create")
-    public String getUserCreatePage() {
+    public String getUserCreatePage(Model model) {
+        model.addAttribute("user", new User());
         return "createUser";
     }
+
 
     @GetMapping
     public String getUserUpdatePage(@RequestParam("userId") Long userId, Model model, HttpServletResponse response) {
         Optional<User> user = userService.getUserById(userId);
         if (user.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_NOT_FOUND); //404
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND); // 404
             model.addAttribute("message", "User not found: id=" + userId);
             return "innerError";
         }
         model.addAttribute("user", user.get());
-        return "edit";
+        return "user"; // Рендерит
     }
 
     //Create
@@ -76,7 +79,7 @@ public class UserController {
         Optional<User> userUpdated = userService.updateUser(user);
         if (userUpdated.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_CONFLICT);
-            model.addAttribute("message", "User not updated.");
+            model.addAttribute("message", "User not updated");
             return "innerError";
         }
         response.setStatus(HttpServletResponse.SC_OK);
@@ -84,17 +87,38 @@ public class UserController {
         return "user";
     }
 
-    //Delete
-    @PostMapping("/delete")
-    public String deleteUser(@RequestParam("userId") Long userId, Model model, HttpServletResponse response) {
-        Optional<User> userDeleted = userService.deleteUser(userId);
-        if (userDeleted.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_CONFLICT);
-            model.addAttribute("message", "User not deleted.");
+    @GetMapping("/delete/{userId}")
+    public String deleteUser(@PathVariable("userId") Long userId,
+                             Model model,
+                             HttpServletResponse response) {
+        try {
+            System.out.println("Started deleting user, ID: " + userId);
+            Optional<User> userDeleted = userService.deleteUser(userId);
+            if (userDeleted.isEmpty()) {
+                System.out.println("User with ID not found or not deleted" + userId);
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+                model.addAttribute("message", "User not deleted");
+                return "innerError";
+            }
+            System.out.println("User successfully deleted, ID: " + userId);
+            response.setStatus(HttpServletResponse.SC_OK);
+            model.addAttribute("user", userDeleted.get());
+            return "user";
+        } catch (Exception e) {
+            System.out.println("Error while trying to delete user with ID:" + userId + e.getMessage() + e);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            model.addAttribute("message", "Internal server error while deleting user");
             return "innerError";
         }
-        response.setStatus(HttpServletResponse.SC_OK);
-        model.addAttribute("user", userDeleted.get());
-        return "user";
+    }
+
+    @GetMapping("/allusers")
+    public String getAllUsers(Model model) {
+        List<User> users = userService.getAllUsers();
+        if (users.isEmpty()) {
+            model.addAttribute("message", "No users in the database");
+        }
+        model.addAttribute("users", users);
+        return "listUsers";
     }
 }

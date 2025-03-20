@@ -36,7 +36,6 @@
         <input type="text" id="telephoneNumber" name="telephoneNumber">
     </div>
 
-
     <input type="submit" value="Create user">
 </form>
 </body>

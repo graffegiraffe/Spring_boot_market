@@ -7,5 +7,5 @@
     <p>Sex: ${user.sex}</p>
     <p>Created: ${user.created}</p>
     <p>Updated: ${user.updated}</p>
-    <p>Deleted: ${user.deleted}</p>
+    <p>Deleted: <#if user.isDeleted??>${user.isDeleted?string('Yes', 'No')}</#if></p>
 </#macro>

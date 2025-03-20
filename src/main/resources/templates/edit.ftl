@@ -4,7 +4,8 @@
     <title>Update user</title>
 </head>
 <body>
-<h1>Current user info:</h1>
+<h1>Current user info</h1>
+<#if user??>
 <@um.userInfo user/>
 
 <h1>Update user:</h1>
@@ -38,6 +39,9 @@
         <button type="submit">Save changes</button>
     </div>
 </form>
-${user}
+<#else>
+    <p>User information is unavailable</p>
+</#if>
+
 </body>
 </html>
